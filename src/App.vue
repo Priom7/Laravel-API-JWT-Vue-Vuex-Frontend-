@@ -1,21 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="nav">
+     <template v-if="authenticated">
+       <h1>Welcome</h1>
+       <p>Name : {{user.name}}</p>
+       <p>Email : {{user.email}}</p>
+      <router-link  to="/home">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      </template>
+      <template v-else>
+      <router-link to="/">SignIn</router-link>
+      </template>
+    </div>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import {mapGetters} from 'vuex'
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  computed : {
+    ...mapGetters({
+      authenticated: 'auth/authenticated',
+      user: 'auth/user'
+    })
   }
 }
 </script>
-
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -23,6 +34,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
